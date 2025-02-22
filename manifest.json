@@ -1,0 +1,16 @@
+{
+    "name": "Severed Balatro",
+    "id": "svrd",
+    "version": "0.1",
+    "website_url": "https://github.com/frogzsj/SeveredBalatro",
+    "description": "Severed themed Balatro jokers, etc.",
+    "prefix": "svrd",
+    "author": ["frogzsj"],
+    "main_file": "Svrd.lua",
+    "priority": 13,
+    "badge_colour": "38A6B7",
+    "badge_text_colour": "6AF307",
+    "dependencies": [
+        "Steamodded (>=1.0.0~ALPHA-1325a)"
+    ]
+}
