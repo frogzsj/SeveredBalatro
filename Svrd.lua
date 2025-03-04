@@ -1,4 +1,11 @@
-SVRD = {}
+SMODS.current_mod.optional_features = {
+  cardareas = {
+    unscored = true,
+  },
+  retrigger_joker = true,
+}
+
+_ = SMODS.load_file("lodash.lua")()
 
 SMODS.Atlas {
   key = "svrd_atlas",
@@ -7,491 +14,57 @@ SMODS.Atlas {
   py = 95,
 }
 
-SMODS.Joker {
-	key = 'defiantjazz',
-	config = { extra = { } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.mult } }
-	end,
-	rarity = 2,
-	atlas = 'svrd_atlas',
-	pos = { x = 0, y = 0 },
-	cost = 4,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.cardarea == G.jokers and context.before then 
-			local text,_ = context.scoring_name
-			local hand_to_upgrade = pick_random_hand(text, 'defiantjazz', nil)
-			card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_level_up_ex')})
-			update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(hand_to_upgrade, 'poker_hands'),chips = G.GAME.hands[hand_to_upgrade].chips, mult = G.GAME.hands[hand_to_upgrade].mult, level=G.GAME.hands[hand_to_upgrade].level})
-			level_up_hand(nil, hand_to_upgrade, nil, 1)
-		end
-	end
+G.C.SVRD_PROTOCOL = HEX("303030")
+SMODS.Rarity{
+  key = "protocol",
+  badge_colour = G.C.SVRD_PROTOCOL,
+  default_weight = 0.001,
+  pools = {["Joker"] = true},
 }
 
-SMODS.Joker {
-	key = 'retirementparty',
-	config = { extra = { mult = 4 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.mult } }
-	end,
-	rarity = 2,
-	atlas = 'svrd_atlas',
-	pos = { x = 1, y = 0 },
-	cost = 6,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
-		end
-	end
+G.C.SVRD_TEMPER = HEX("d4e04c")
+SMODS.Rarity{
+  key = "temper",
+  badge_colour = G.C.SVRD_TEMPER,
+  badge_text_colour = G.C.BLACK,
+  default_weight = 0.001,
+  pools = {["Joker"] = true},
 }
 
-SMODS.Joker {
-	key = 'outtieirv',
-	config = { extra = { odds = 3 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { ''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
-	end,
-	rarity = 2,
-	atlas = 'svrd_atlas',
-	pos = { x = 2, y = 0 },
-	cost = 5,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
-		end
-	end
-}
-
--- SMODS.Joker {
--- 	key = 'innieirv',
--- 	loc_txt = {
--- 		name = 'Innie Irv',
--- 		text = {
--- 			"???"
--- 		}
--- 	},
--- 	config = { extra = { mult = 4 } },
--- 	loc_vars = function(self, info_queue, card)
--- 		return { vars = { card.ability.extra.mult } }
--- 	end,
--- 	rarity = 1,
--- 	atlas = 'svrd_atlas',
--- 	pos = { x = 3, y = 0 },
--- 	cost = 2,
--- 	unlocked = true,
--- 	discovered = true,
--- 	calculate = function(self, card, context)
--- 		if context.joker_main then
--- 			return {
--- 				mult_mod = card.ability.extra.mult,
--- 				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
--- 			}
--- 		end
--- 	end
--- }
-
-SMODS.Joker {
-	key = 'kier',
-	config = { extra = { retriggers = 1 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.retriggers } }
-	end,
-	rarity = 3,
-	atlas = 'svrd_atlas',
-	pos = { x = 4, y = 0 },
-	cost = 10,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
-		end
-	end
-}
-
-SMODS.Joker {
-	key = 'dieter',
-	config = { extra = { mult = 4 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.mult } }
-	end,
-	rarity = 2,
-	atlas = 'svrd_atlas',
-	pos = { x = 5, y = 0 },
-	cost = 5,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
-		end
-	end,
-	in_pool = function() end
-}
-
-SMODS.Joker {
-	key = 'macrodatarefinement',
-	config = { extra = { chip_mult = 1.2 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.chip_mult } }
-	end,
-	rarity = 3,
-	atlas = 'svrd_atlas',
-	pos = { x = 6, y = 0 },
-	cost = 8,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
-		end
-	end
-}
-
-SMODS.Joker {
-	key = 'fingertrap',
-	config = { extra = { mult = 4 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.mult } }
-	end,
-	rarity = 3,
-	atlas = 'svrd_atlas',
-	pos = { x = 0, y = 1 },
-	cost = 8,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
-		end
-	end
-}
-
--- SMODS.Joker {
--- 	key = 'hellyr',
--- 	loc_txt = {
--- 		name = 'Helly R.',
--- 		text = {
--- 			"????"
--- 		}
--- 	},
--- 	config = { extra = { mult = 4 } },
--- 	loc_vars = function(self, info_queue, card)
--- 		return { vars = { card.ability.extra.mult } }
--- 	end,
--- 	rarity = 1,
--- 	atlas = 'svrd_atlas',
--- 	pos = { x = 1, y = 1 },
--- 	cost = 2,
--- 	unlocked = true,
--- 	discovered = true,
--- 	calculate = function(self, card, context)
--- 		if context.joker_main then
--- 			return {
--- 				mult_mod = card.ability.extra.mult,
--- 				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
--- 			}
--- 		end
--- 	end
--- }
-
-SMODS.Joker {
-	key = 'lumonindustries',
-	config = { extra = { mult = 4 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.mult } }
-	end,
-	rarity = 1,
-	atlas = 'svrd_atlas',
-	pos = { x = 2, y = 1 },
-	cost = 2,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
-		end
-	end
-}
-
-SMODS.Joker {
-	key = 'petey',
-	config = { extra = { odds = 2 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { ''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
-	end,
-	rarity = 2,
-	atlas = 'svrd_atlas',
-	pos = { x = 3, y = 1 },
-	cost = 4,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
-		end
-	end
-}
-
--- SMODS.Joker {
--- 	key = 'mrmilchick',
--- 	loc_txt = {
--- 		name = 'Mr. Milchick',
--- 		text = {
--- 			"???"
--- 		}
--- 	},
--- 	config = { extra = { mult = 4 } },
--- 	loc_vars = function(self, info_queue, card)
--- 		return { vars = { card.ability.extra.mult } }
--- 	end,
--- 	rarity = 1,
--- 	atlas = 'svrd_atlas',
--- 	pos = { x = 4, y = 1 },
--- 	cost = 2,
--- 	unlocked = true,
--- 	discovered = true,
--- 	calculate = function(self, card, context)
--- 		if context.joker_main then
--- 			return {
--- 				mult_mod = card.ability.extra.mult,
--- 				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
--- 			}
--- 		end
--- 	end
--- }
-
-SMODS.Joker {
-	key = 'drrickenlazlohalephd',
-	config = { extra = { mult = 4 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.mult } }
-	end,
-	rarity = 1,
-	atlas = 'svrd_atlas',
-	pos = { x = 5, y = 1 },
-	cost = 2,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
-		end
-	end
-}
-
-SMODS.Joker {
-	key = 'wellnesssession',
-	config = { extra = { mult = 4 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.mult } }
-	end,
-	rarity = 1,
-	atlas = 'svrd_atlas',
-	pos = { x = 6, y = 1 },
-	cost = 2,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
-		end
-	end
-}
-
-SMODS.Joker {
-	key = 'cleanslate',
-	config = { extra = { mult = 4 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.mult } }
-	end,
-	rarity = 1,
-	atlas = 'svrd_atlas',
-	pos = { x = 0, y = 2 },
-	cost = 2,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
-		end
-	end
-}
-
-SMODS.Joker {
-	key = 'glasglowblock',
-	config = { extra = { mult = 4 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.mult } }
-	end,
-	rarity = 1,
-	atlas = 'svrd_atlas',
-	pos = { x = 1, y = 2 },
-	cost = 2,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
-		end
-	end
-}
-
-SMODS.Joker {
-	key = 'overtimecontingency',
-	config = { extra = { mult = 4 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.mult } }
-	end,
-	rarity = 1,
-	atlas = 'svrd_atlas',
-	pos = { x = 2, y = 2 },
-	cost = 2,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
-		end
-	end
-}
-
-SMODS.Joker {
-	key = 'ortbotwin',
-	config = { extra = { mult = 4 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.mult } }
-	end,
-	rarity = 1,
-	atlas = 'svrd_atlas',
-	pos = { x = 3, y = 2 },
-	cost = 2,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
-		end
-	end
-}
-
-SMODS.Joker {
-	key = 'regabhi',
-	config = { extra = { odds = 4 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { ''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
-	end,
-	rarity = 1,
-	atlas = 'svrd_atlas',
-	pos = { x = 4, y = 2 },
-	cost = 2,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
-		end
-	end
-}
-
-SMODS.Joker {
-	key = 'svrdfloor',
-	config = { extra = { xmult = 1, xmult_gain = 0.1 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.xmult_gain, card.ability.extra.xmult } }
-	end,
-	rarity = 1,
-	atlas = 'svrd_atlas',
-	pos = { x = 5, y = 2 },
-	cost = 2,
-	unlocked = true,
-	discovered = true,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
-		end
-	end
-}
-
----------------------------------------------
---- Helper Functions
----------------------------------------------
-
--- From Cryptid mod neutron star
-function pick_random_hand(ignore, seed, allowhidden)
-	local chosen_hand
-	ignore = ignore or {}
-	seed = seed or "randomhand"
-	if type(ignore) ~= "table" then
-		ignore = { ignore }
-	end
-	while true do
-		chosen_hand = pseudorandom_element(G.handlist, pseudoseed(seed))
-		if G.GAME.hands[chosen_hand].visible or allowhidden then
-			local safe = true
-			for _, v in pairs(ignore) do
-				if v == chosen_hand then
-					safe = false
-				end
-			end
-			if safe then
-				break
-			end
-		end
-	end
-	return chosen_hand
+local function has_value(tab, val)
+  for i, value in ipairs(tab) do
+      if value == val then
+          return true
+      end
+  end
+  return false
 end
+
+function GetIndex(list, item)
+  for i = 1, #list do
+    if list[i] == item then
+      return i
+    end
+  end
+  return -1
+end
+
+scary_nums = {4, 5, 6, 9}
+happy_nums = {2, 3, 7, 8}
+function IsScary(number) return has_value(scary_nums, number) end
+function IsHappy(number) return has_value(happy_nums, number) end
+function IsMdrMember(joker_card) return _.get(joker_card, { "ability", "extra", "is_mdr_member" }, false) end
+
+local mod_path = "" .. SMODS.current_mod.path
+local function load_folder(folder)
+	local files = NFS.getDirectoryItems(mod_path .. folder)
+	for i, file in ipairs(files) do
+		SMODS.load_file(folder .. "/" .. file)()
+	end
+end
+
+load_folder("enhancements")
+load_folder("tarots")
+load_folder("jokers")
+load_folder("spectrals")
+

@@ -1,5 +1,5 @@
 {
-    "name": "Severed Balatro",
+    "name": "Severed",
     "id": "svrd",
     "version": "0.1",
     "website_url": "https://github.com/frogzsj/SeveredBalatro",
@@ -8,9 +8,9 @@
     "author": ["frogzsj"],
     "main_file": "Svrd.lua",
     "priority": 13,
-    "badge_colour": "38A6B7",
-    "badge_text_colour": "6AF307",
+    "badge_colour": "235BA8",
+    "badge_text_colour": "8BE076",
     "dependencies": [
-        "Steamodded (>=1.0.0~ALPHA-1325a)"
+        "Steamodded (>=1.0.0~ALPHA-1428a)"
     ]
 }
