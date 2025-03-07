@@ -19,7 +19,8 @@ SMODS.Joker {
 			card.ability.extra.xmult = 1
 		elseif context.other_joker and context.other_joker.ability.set == "Joker"
 			and not context.other_joker.debuff and IsMdrMember(context.other_joker)
-			and not context.retrigger_joker and not context.blueprint and context.other_joker ~= self then
+			and not context.retrigger_joker and not context.retrigger_joker_check
+			and not context.blueprint and context.other_joker ~= self then
 				card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
 				G.E_MANAGER:add_event(Event({
 					func = function()

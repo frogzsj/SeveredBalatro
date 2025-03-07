@@ -8,8 +8,6 @@ SMODS.Joker {
 	atlas = "svrd_atlas",
 	pos = { x = 0, y = 1 },
 	cost = 10,
-	-- unlocked = true,
-	-- discovered = true,
 	blueprint_compat = false,
 }
 
